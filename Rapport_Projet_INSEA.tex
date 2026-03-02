@@ -1,0 +1,95 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=2cm}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+% Couleurs INSEA
+\definecolor{inseaGreen}{HTML}{2A8049}
+\definecolor{inseaGold}{HTML}{C5A059}
+
+% Formatage des titres
+\titleformat{\section}{\color{inseaGreen}\normalfont\Large\bfseries}{\thesection}{1em}{}[{\color{inseaGold}\titlerule[1pt]}]
+\titleformat{\subsection}{\color{inseaGreen}\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\title{
+    \vspace{2cm}
+    \Huge\textcolor{inseaGreen}{\textbf{Rapport de Projet Web}}\\
+    \vspace{0.5cm}
+    \Large\textcolor{inseaGold}{\textbf{Refonte du Site Institutionnel de l'INSEA}}\\
+    \vspace{1.5cm}
+    \large Projet de Développement Web Front-End
+}
+\author{Réaliser par: EL HAFID Maryam, BOUITA Yassir}
+\date{Créer le \today}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\vspace{2cm}
+\begin{center}
+    \textbf{INSEA - Institut National de Statistique et d'Economie Appliquée}
+\end{center}
+
+\newpage
+
+\section{Introduction}
+Ce document présente le rapport technique concernant le projet de développement de la nouvelle page d'accueil de l'\textbf{Institut National de Statistique et d'Economie Appliquée (INSEA)}. L'objectif principal de ce projet était de concevoir une interface web moderne, institutionnelle et esthétiquement plaisante, tout en respectant des contraintes techniques strictes afin de démontrer une maîtrise approfondie des langages fondamentaux du web.
+
+\section{Contraintes Techniques}
+Le projet a été réalisé en respectant un cahier des charges rigoureux :
+\begin{itemize}
+    \item \textbf{Technologies utilisées :} Uniquement HTML brut, CSS personnalisé et PHP pour la modularité.
+    \item \textbf{Zéro JavaScript :} Toutes les interactions (menus déroulants, animations, carrousels) doivent être gérées via des propriétés CSS avancées (pseudo-classes, keyframes).
+    \item \textbf{Zéro Framework CSS :} Aucune utilisation de librairies externes telles que Bootstrap ou TailwindCSS. Tout le système de grille, de flexbox et de typographie a été conçu à partir de zéro.
+    \item \textbf{Modularité :} Utilisation de la fonction \texttt{include} de PHP pour séparer l'en-tête (header) et le pied de page (footer) du contenu principal.
+\end{itemize}
+
+\section{Architecture du Projet}
+Pour assurer la scalabilité et la maintenabilité du code, le projet a été structuré selon l'arborescence suivante :
+
+\begin{verbatim}
+/Projet_PHP_INSEApage
+|-- index.php (Page principale)
+|-- components/
+    |-- CSS/
+    |   `-- style.css (Feuille de style unique)
+    |-- PHP/
+    |   |-- header.php (En-tête modulaire)
+    |   `-- footer.php (Pied de page modulaire)
+    `-- images/
+        |-- logos/ (Icônes et logos de base)
+        |-- partenariats/ (Logos des partenaires)
+        `-- others/ (Images de la section Hero et autres)
+\end{verbatim}
+
+\section{Charte Graphique et Design System}
+Une charte graphique institutionnelle a été définie via des variables CSS natives (Custom Properties) pour garantir la cohérence visuelle :
+\begin{itemize}
+    \item \textbf{Vert INSEA (Principal) :} \texttt{\#2A8049} - Utilisé pour l'identité de marque et les appels à l'action.
+    \item \textbf{Or (Accent) :} \texttt{\#C5A059} - Utilisé pour souligner les titres et ajouter une touche de prestige.
+    \item \textbf{Typographie :} Polices sans-serif épurées (Segoe UI, Roboto, sans-serif) pour une lisibilité optimale.
+    \item \textbf{Ombres et Profondeur :} Utilisation de \texttt{box-shadow} pour détacher les cartes d'information du fond blanc, créant une interface moderne.
+\end{itemize}
+
+\section{Fonctionnalités et Réalisations Clés}
+
+\subsection{Menu Déroulant Multi-niveaux (100\% CSS)}
+Un système de navigation complexe a été développé sans JavaScript. En utilisant les sélecteurs CSS \texttt{:hover} et \texttt{>}, les sous-menus s'affichent de manière fluide avec des effets de transition (transformations et opacité).
+
+\subsection{Carrousel de Partenariats Infini}
+Le défilement automatique des logos partenaires a été réalisé grâce à une animation CSS en boucle (\texttt{@keyframes scrollInfinite}). L'animation se met en pause lorsque l'utilisateur survole la zone (\texttt{animation-play-state: paused}), et des infobulles créées via le pseudo-élément \texttt{::after} s'affichent pour indiquer le nom du partenaire.
+
+\subsection{Intégration Multimédia \& Grille Responsive}
+Le site intègre une vidéo YouTube réactive ainsi qu'une grille de galerie photos. La mise en page globale s'appuie massivement sur \textbf{CSS Grid} (pour les actualités, les chiffres clés, et l'espace étudiants) et \textbf{CSS Flexbox} (pour les sections d'accueil et le header), garantissant un alignement parfait.
+
+\section{Conclusion}
+Ce projet a permis de construire une interface web robuste, professionnelle et performante. L'absence de frameworks et de JavaScript a nécessité une maîtrise avancée de CSS3, démontrant qu'il est tout à fait possible de créer des expériences utilisateurs riches, fluides et dynamiques uniquement avec les technologies web standards. Le site reflète désormais parfaitement l'excellence et le prestige de l'INSEA.
+
+\end{document}
