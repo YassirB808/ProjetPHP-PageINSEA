@@ -1,9 +1,10 @@
+<?php include_once __DIR__ . '/lang_handler.php'; ?>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<?php echo get_lang_code(); ?>" dir="<?php echo get_dir(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INSEA | Institut National de Statistique et d'Economie Appliquée</title>
+    <title><?php echo __('title'); ?></title>
     <link rel="stylesheet" href="components/CSS/style.css">
 </head>
 <body>
@@ -14,15 +15,22 @@
             <a href="index.php" style="display: flex; align-items: center; gap: 20px;">
                 <img src="components/images/logos/INSEA_logo.png" alt="INSEA Logo">
                 <div class="logo-text">
-                    <h1>INSEA</h1>
-                    <p>Institut National de Statistique et d'Economie Appliquée</p>
+                    <h1><?php echo __('logo_title'); ?></h1>
+                    <p><?php echo __('logo_subtitle'); ?></p>
                 </div>
             </a>
         </div>
 
-        <div class="search-header">
-            <input type="text" placeholder="Rechercher...">
-            <img src="components/images/logos/search_icon.png" alt="Rechercher" style="height: 18px; width: auto; opacity: 0.6;">
+        <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+            <div class="lang-switcher" style="display: flex; gap: 10px; font-weight: bold; font-size: 14px;">
+                <a href="?lang=fr" style="color: <?php echo get_lang_code() == 'fr' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">FR</a>
+                <a href="?lang=en" style="color: <?php echo get_lang_code() == 'en' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">EN</a>
+                <a href="?lang=ar" style="color: <?php echo get_lang_code() == 'ar' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">AR</a>
+            </div>
+            <div class="search-header">
+                <input type="text" placeholder="<?php echo __('search_placeholder'); ?>">
+                <img src="components/images/logos/search_icon.png" alt="Rechercher" style="height: 18px; width: auto; opacity: 0.6;">
+            </div>
         </div>
     </header>
 
@@ -30,65 +38,66 @@
     <div class="nav-wrapper">
         <div class="nav-container">
             <ul class="main-nav">
-                <li><a href="index.php">Accueil</a></li>
+                <li><a href="index.php"><?php echo __('nav_home'); ?></a></li>
                 <li>
-                    <a href="#">Formations</a>
+                    <a href="#"><?php echo __('nav_formations'); ?></a>
                     <ul class="dropdown">
                         <li>
-                            <a href="#">Cycle des ingénieurs &rsaquo;</a>
+                            <a href="cycle_ingenieur.php"><?php echo __('cycle_ingenieur'); ?> &rsaquo;</a>
                             <ul class="dropdown">
-                                <li><a href="#">Actuariat-Finance (AF)</a></li>
-                                <li><a href="#">Data Science (DS)</a></li>
-                                <li><a href="#">Statistique-Economie (SE)</a></li>
-                                <li><a href="#">Recherche Opérationnelle (RO)</a></li>
+                                <li><a href="filiere_af.php"><?php echo __('ci_af'); ?></a></li>
+                                <li><a href="filiere_ds.php"><?php echo __('ci_ds'); ?></a></li>
+                                <li><a href="filiere_se.php"><?php echo __('ci_se'); ?></a></li>
+                                <li><a href="filiere_ro.php"><?php echo __('ci_ro'); ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Cycle de Master</a></li>
-                        <li><a href="#">Cycle doctoral</a></li>
-                        <li><a href="#">Centre de Formation Continue</a></li>
+                        <li><a href="cycle_master.php"><?php echo __('nav_master'); ?></a></li>
+                        <li><a href="cycle_doctoral.php"><?php echo __('nav_doctoral'); ?></a></li>
+                        <li><a href="formation_continue.php"><?php echo __('nav_formation_continue'); ?></a></li>
                         <li>
-                            <a href="#">Accès &rsaquo;</a>
+                            <a href="admission.php"><?php echo __('nav_acces'); ?> &rsaquo;</a>
                             <ul class="dropdown">
-                                <li><a href="#">Admission en 1ère Année</a></li>
-                                <li><a href="#">Admission en 2ème Année</a></li>
+                                <li><a href="admission_1.php"><?php echo __('nav_admission_1'); ?></a></li>
+                                <li><a href="admission_2.php"><?php echo __('nav_admission_2'); ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Calendrier scolaire</a></li>
-                        <li><a href="#">Cours en ligne</a></li>
+                        <li><a href="calendrier_scolaire.php"><?php echo __('nav_calendrier'); ?></a></li>
+                        <li><a href="cours_en_ligne.php"><?php echo __('nav_cours_ligne'); ?></a></li>
                     </ul>
                 </li>
-                <li><a href="#">Activités</a></li>
+                <li><a href="actualites.php"><?php echo __('nav_actualites'); ?></a></li>
                 <li>
-                    <a href="#">Stage</a>
+                    <a href="#"><?php echo __('nav_stage'); ?> &rsaquo;</a>
                     <ul class="dropdown">
-                        <li><a href="#">Présentation</a></li>
-                        <li><a href="#">Proposer un stage</a></li>
+                        <li><a href="stage_presentation.php"><?php echo __('nav_stage_pres'); ?></a></li>
+                        <li><a href="stage_proposer.php"><?php echo __('nav_stage_proposer'); ?></a></li>
                     </ul>
                 </li>
-                <li><a href="#">Partenariats</a></li>
+
+                <li><a href="partenariats.php"><?php echo __('nav_partenariats'); ?></a></li>
                 <li>
-                    <a href="#">Lauréats</a>
+                    <a href="#"><?php echo __('nav_laureats'); ?></a>
                     <ul class="dropdown">
-                        <li><a href="#">Offre d'emploi</a></li>
-                        <li><a href="#">Remise des diplômes</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Recherche</a>
-                    <ul class="dropdown">
-                        <li><a href="#">Présentation de CEDOC</a></li>
-                        <li><a href="#">Laboratoires de recherche</a></li>
+                        <li><a href="offres_emploi.php"><?php echo __('nav_job_offers'); ?></a></li>
+                        <li><a href="remise_diplomes.php"><?php echo __('nav_graduation'); ?></a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">Vie Estudiantine</a>
+                    <a href="#"><?php echo __('nav_recherche'); ?></a>
                     <ul class="dropdown">
-                        <li><a href="#">Internat & Restauration</a></li>
-                        <li><a href="#">Bibliothèque Centrale</a></li>
-                        <li><a href="#">Foyer & Salles d'étude</a></li>
-                        <li><a href="#">Bureau des Etudiants (BDE)</a></li>
-                        <li><a href="#">Clubs & Associations</a></li>
-                        <li><a href="#">Infrastructures Sportives</a></li>
+                        <li><a href="cedoc.php"><?php echo __('nav_cedoc'); ?></a></li>
+                        <li><a href="laboratoires.php"><?php echo __('nav_labs'); ?></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><?php echo __('nav_vie_estudiantine'); ?></a>
+                    <ul class="dropdown">
+                        <li><a href="#"><?php echo __('nav_internship_restoration'); ?></a></li>
+                        <li><a href="#"><?php echo __('nav_library'); ?></a></li>
+                        <li><a href="#"><?php echo __('nav_foyer_study'); ?></a></li>
+                        <li><a href="#"><?php echo __('nav_bde'); ?></a></li>
+                        <li><a href="#"><?php echo __('nav_clubs'); ?></a></li>
+                        <li><a href="#"><?php echo __('nav_sports'); ?></a></li>
                     </ul>
                 </li>
             </ul>

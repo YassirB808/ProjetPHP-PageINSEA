@@ -11,72 +11,70 @@
         <img src="components/images/others/insea_home_image2.png" alt="INSEA Welcome">
     </div>
     <div class="welcome-text">
-        <h2>Bienvenue à l'INSEA</h2>
+        <h2><?php echo __('welcome_title'); ?></h2>
         <p>
-            L'Institut National de Statistique et d'Economie Appliquée (INSEA) est une grande école d'ingénieurs marocaine créée en 1961. 
-            Il a pour mission la formation d'ingénieurs d'État et de cadres de haut niveau dans les domaines de la statistique, 
-            de l'économie appliquée, de l'informatique et de la science des données.
+            <?php echo __('welcome_text'); ?>
         </p>
-        <a href="#" class="link-arrow">Explorer plus</a>
+        <a href="#" class="link-arrow"><?php echo __('explorer_plus'); ?></a>
     </div>
 </section>
 
 <!-- ACTUALITES SECTION -->
 <section>
     <div class="section-header">
-        <h2>Actualités</h2>
+        <h2><?php echo __('actualites'); ?></h2>
         <div class="line"></div>
     </div>
 
     <!-- LE PLUS RÉCENT (Featured First) -->
     <section class="featured-news">
         <div class="featured-img">
-            IMAGE MISE EN AVANT
+            <?php echo __('logo_title'); ?>
         </div>
         <div class="featured-content">
-            <span class="tag-recent">Le Plus Récent</span>
-            <h2>Transformation digitale : L'INSEA inaugure son nouveau laboratoire de Data Science</h2>
-            <p>Ce nouvel espace permettra aux étudiants et chercheurs de travailler sur des projets innovants en utilisant les dernières technologies de pointe.</p>
-            <a href="#" class="link-arrow link-white">Lire la suite</a>
+            <span class="tag-recent"><?php echo __('featured_recent'); ?></span>
+            <h2><?php echo __('news_1_title'); ?></h2>
+            <p><?php echo __('news_1_desc'); ?></p>
+            <a href="#" class="link-arrow link-white"><?php echo __('read_more'); ?></a>
         </div>
     </section>
 
     <!-- NEWS GRID -->
     <div class="news-grid">
         <article class="news-card">
-            <div class="news-img">ACTUALITÉ 1</div>
+            <div class="news-img">NEWS</div>
             <div class="news-content">
                 <span class="news-date">15 Mars 2026</span>
-                <h3>Concours d'accès 2026/2027</h3>
-                <p>Les inscriptions sont désormais ouvertes pour les cycles ingénieurs et masters.</p>
-                <a href="#" class="link-arrow">Voir tous</a>
+                <h3><?php echo __('news_2_title'); ?></h3>
+                <p><?php echo __('news_2_desc'); ?></p>
+                <a href="#" class="link-arrow"><?php echo __('voir_tous'); ?></a>
             </div>
         </article>
 
         <article class="news-card">
-            <div class="news-img">ACTUALITÉ 2</div>
+            <div class="news-img">NEWS</div>
             <div class="news-content">
                 <span class="news-date">10 Mars 2026</span>
-                <h3>Séminaire sur l'IA et l'Économie</h3>
-                <p>Retour sur la conférence exceptionnelle tenue par le Professeur Alan Smith.</p>
-                <a href="#" class="link-arrow">Voir tous</a>
+                <h3><?php echo __('news_3_title'); ?></h3>
+                <p><?php echo __('news_3_desc'); ?></p>
+                <a href="#" class="link-arrow"><?php echo __('voir_tous'); ?></a>
             </div>
         </article>
 
         <article class="news-card">
-            <div class="news-img">ACTUALITÉ 3</div>
+            <div class="news-img">NEWS</div>
             <div class="news-content">
                 <span class="news-date">05 Mars 2026</span>
-                <h3>Nouveau partenariat international</h3>
-                <p>L'INSEA renforce sa collaboration avec l'Université de Paris-Saclay.</p>
-                <a href="#" class="link-arrow">Voir tous</a>
+                <h3><?php echo __('news_4_title'); ?></h3>
+                <p><?php echo __('news_4_desc'); ?></p>
+                <a href="#" class="link-arrow"><?php echo __('voir_tous'); ?></a>
             </div>
         </article>
     </div>
 
     <!-- VIEW ALL BUTTON -->
     <div class="btn-container">
-        <a href="#" class="btn-outline">Voir toutes les actualités</a>
+        <a href="actualites.php" class="btn-outline"><?php echo __('voir_tous'); ?></a>
     </div>
 </section>
 
@@ -84,21 +82,21 @@
 <section class="hmo-section">
     <div class="hmo-container">
         <div class="hmo-item">
-            <h3>Histoire</h3>
-            <p>Fondé en 1961, l'INSEA est le premier institut de statistique au Maroc. Il a formé des générations de hauts cadres qui ont piloté les grandes stratégies économiques du pays.</p>
-            <a href="#" class="link-arrow">Lire la suite</a>
+            <h3><?php echo __('history'); ?></h3>
+            <p><?php echo __('hmo_history_text'); ?></p>
+            <a href="#" class="link-arrow"><?php echo __('read_more'); ?></a>
         </div>
         
         <div class="hmo-item">
-            <h3>Mission</h3>
-            <p>Former des ingénieurs d'État et des experts en data science capables de relever les défis de la modélisation et de l'analyse complexe dans un monde numérisé.</p>
-            <a href="#" class="link-arrow">Lire la suite</a>
+            <h3><?php echo __('mission'); ?></h3>
+            <p><?php echo __('hmo_mission_text'); ?></p>
+            <a href="#" class="link-arrow"><?php echo __('read_more'); ?></a>
         </div>
 
         <div class="hmo-item">
-            <h3>Organisation</h3>
-            <p>Une gouvernance moderne articulée autour de départements académiques d'excellence et d'une vie estudiantine riche au sein d'un campus dynamique.</p>
-            <a href="#" class="link-arrow">Lire la suite</a>
+            <h3><?php echo __('organisation'); ?></h3>
+            <p><?php echo __('hmo_org_text'); ?></p>
+            <a href="#" class="link-arrow"><?php echo __('read_more'); ?></a>
         </div>
     </div>
 </section>
@@ -110,9 +108,9 @@
             <div class="mot-image">PHOTO</div>
         </div>
         <div class="mot-text">
-            <h2>Mot du Directeur</h2>
-            <blockquote>"À l'INSEA, nous nous engageons à former les leaders de demain. Notre ambition est d'offrir un environnement académique d'excellence, propice à l'innovation, à la recherche et au développement de compétences pointues en data science, statistique et économie appliquée, répondant ainsi aux défis d'un monde en perpétuelle mutation."</blockquote>
-            <div class="mot-author">NOM DU DIRECTEUR<span>Directeur de l'INSEA</span></div>
+            <h2><?php echo __('director_word'); ?></h2>
+            <blockquote><?php echo __('director_quote'); ?></blockquote>
+            <div class="mot-author"><?php echo __('director_name'); ?><span><?php echo __('director_sub'); ?></span></div>
         </div>
     </div>
 </section>
@@ -120,7 +118,12 @@
 <!-- ESPACE ETUDIANTS & CHIFFRES -->
 <section class="espace-etudiants-section">
     <div class="section-header" style="margin-top: 0;">
-        <h2 style="color: var(--gray-900);">ESPACE <span style="color: var(--insea-green);">ETUDIANTS</span></h2>
+        <h2 style="color: var(--gray-900);"><?php 
+            $student_space = __('student_space');
+            $parts = explode(' ', $student_space, 2);
+            echo $parts[0]; 
+            if(isset($parts[1])) echo ' <span style="color: var(--insea-green);">' . $parts[1] . '</span>';
+        ?></h2>
     </div>
     
     <div class="espace-cards-grid">
@@ -130,8 +133,8 @@
                     <img src="components/images/logos/admission.png" alt="Accès et admissions">
                 </div>
             </div>
-            <h3>Accès et admissions</h3>
-            <a href="#" class="espace-link">+D'INFOS</a>
+            <h3><?php echo __('student_link_admission'); ?></h3>
+            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
         
         <article class="espace-card">
@@ -140,8 +143,8 @@
                     <img src="components/images/logos/calendrier.png" alt="Emploi du temps">
                 </div>
             </div>
-            <h3>Emploi du temps</h3>
-            <a href="#" class="espace-link">+D'INFOS</a>
+            <h3><?php echo __('student_link_schedule'); ?></h3>
+            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
 
         <article class="espace-card">
@@ -150,8 +153,8 @@
                     <img src="components/images/logos/preinscription.png" alt="Préinscription">
                 </div>
             </div>
-            <h3>Préinscription</h3>
-            <a href="#" class="espace-link">+D'INFOS</a>
+            <h3><?php echo __('student_link_preins'); ?></h3>
+            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
 
         <article class="espace-card">
@@ -160,8 +163,8 @@
                     <img src="components/images/logos/planning.png" alt="Planing des examens">
                 </div>
             </div>
-            <h3>Planing des examens</h3>
-            <a href="#" class="espace-link">+D'INFOS</a>
+            <h3><?php echo __('student_link_exams'); ?></h3>
+            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
     </div>
 
@@ -192,29 +195,29 @@
 <!-- ADMINISTRATION SECTION -->
 <section class="admin-section">
     <div class="section-header" style="margin-top: 0;">
-        <h2>Administration</h2>
+        <h2><?php echo __('admin_title'); ?></h2>
         <div class="line"></div>
     </div>
     <div class="admin-grid">
         <article class="admin-card">
             <div class="admin-photo"></div>
             <h4>NOM ET PRÉNOM</h4>
-            <p>Directeur</p>
+            <p><?php echo __('admin_role_director'); ?></p>
         </article>
         <article class="admin-card">
             <div class="admin-photo"></div>
             <h4>NOM ET PRÉNOM</h4>
-            <p>Directeur Adjoint</p>
+            <p><?php echo __('admin_role_deputy'); ?></p>
         </article>
         <article class="admin-card">
             <div class="admin-photo"></div>
             <h4>NOM ET PRÉNOM</h4>
-            <p>Directeur Adjoint</p>
+            <p><?php echo __('admin_role_deputy'); ?></p>
         </article>
         <article class="admin-card">
             <div class="admin-photo"></div>
             <h4>NOM ET PRÉNOM</h4>
-            <p>Secrétaire Général</p>
+            <p><?php echo __('admin_role_secretary'); ?></p>
         </article>
     </div>
 </section>
@@ -222,7 +225,7 @@
 <!-- ORGANIGRAMME -->
 <section class="orga-section">
     <div class="section-header" style="margin-top: 0;">
-        <h2>Organigramme Fonctionnel</h2>
+        <h2><?php echo __('organigramme'); ?></h2>
         <div class="line"></div>
     </div>
     <div class="orga-container">
@@ -238,27 +241,25 @@
         <iframe src="https://www.youtube.com/embed/SHy1NKN56yg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
     <div class="video-description">
-        <h3>Découvrez l'INSEA en vidéo</h3>
-        <p>
-            Plongez au cœur de notre institut et découvrez nos infrastructures, nos filières de formation et l'ambiance dynamique qui règne sur notre campus. 
-        </p>
-        <a href="#" class="link-arrow">Voir plus de vidéos</a>
+        <h3><?php echo __('discover_video'); ?></h3>
+        <p><?php echo __('video_desc'); ?></p>
+        <a href="#" class="link-arrow"><?php echo __('video_view_more'); ?></a>
     </div>
 </section>
 
 <!-- GALERIE SECTION -->
 <section class="gallery-section">
     <div class="section-header" style="margin-top: 0;">
-        <h2>Galerie de l'INSEA</h2>
+        <h2><?php echo __('gallery'); ?></h2>
         <div class="line"></div>
     </div>
     
     <div class="gallery-filters">
-        <span class="filter-btn active">All</span>
-        <span class="filter-btn">Etudiants</span>
-        <span class="filter-btn">Evénements</span>
-        <span class="filter-btn">Partenariats</span>
-        <span class="filter-btn">Recherche</span>
+        <span class="filter-btn active"><?php echo __('gallery_filter_all'); ?></span>
+        <span class="filter-btn"><?php echo __('gallery_filter_students'); ?></span>
+        <span class="filter-btn"><?php echo __('gallery_filter_events'); ?></span>
+        <span class="filter-btn"><?php echo __('gallery_filter_partners'); ?></span>
+        <span class="filter-btn"><?php echo __('gallery_filter_research'); ?></span>
     </div>
 
     <div class="gallery-grid">
@@ -276,7 +277,7 @@
 <!-- PARTENARIATS SIDE SCROLLER -->
 <section class="partners-section">
     <div class="section-header" style="margin-top: 0;">
-        <h2>Nos Partenaires</h2>
+        <h2><?php echo __('partners'); ?></h2>
         <div class="line"></div>
     </div>
     
