@@ -188,7 +188,7 @@ return [
     'hmo_mission_text' => 'Training state engineers and data science experts capable of meeting the challenges of complex modeling and analysis in a digitalized world.',
     'hmo_org_text' => 'A modern governance structured around academic departments of excellence and a rich student life within a dynamic campus.',
     'director_quote' => '"At INSEA, we are committed to training the leaders of tomorrow. Our ambition is to offer an academic environment of excellence, conducive to innovation, research and the development of specialized skills in data science, statistics and applied economics, thus meeting the challenges of a constantly changing world."',
-    'director_name' => 'Pr. Mohammed ESSAADANI',
+    'director_name' => 'NOM PRENOM',
     'director_sub' => 'Director of INSEA',
     'student_link_admission' => 'Access and admissions',
     'student_link_schedule' => 'Timetable',

@@ -188,7 +188,7 @@ return [
     'hmo_mission_text' => 'Former des ingénieurs d\'État et des experts en data science capables de relever les défis de la modélisation et de l\'analyse complexe dans un monde numérisé.',
     'hmo_org_text' => 'Une gouvernance moderne articulée autour de départements académiques d\'excellence et d\'une vie estudiantine riche au sein d\'un campus dynamique.',
     'director_quote' => '"À l\'INSEA, nous nous engageons à former les leaders de demain. Notre ambition est d\'offrir un environnement académique d\'excellence, propice à l\'innovation, à la recherche et au développement de compétences pointues en data science, statistique et économie appliquée, répondant ainsi aux défis d\'un monde en perpétuelle mutation."',
-    'director_name' => 'Pr. Mohammed ESSAADANI',
+    'director_name' => 'NOM PRENOM',
     'director_sub' => 'Directeur de l\'INSEA',
     'student_link_admission' => 'Accès et admissions',
     'student_link_schedule' => 'Emploi du temps',
