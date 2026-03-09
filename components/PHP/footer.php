@@ -7,9 +7,9 @@
                     <?php echo __('footer_about_text'); ?>
                 </p>
                 <div class="social-footer">
-                    <a href="#"><img src="components/images/logos/facebook.png" alt="Facebook"></a>
-                    <a href="#"><img src="components/images/logos/linkedin.png" alt="LinkedIn"></a>
-                    <a href="#"><img src="components/images/logos/instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="<?php echo $assets_path; ?>images/logos/facebook.png" alt="Facebook"></a>
+                    <a href="#"><img src="<?php echo $assets_path; ?>images/logos/linkedin.png" alt="LinkedIn"></a>
+                    <a href="#"><img src="<?php echo $assets_path; ?>images/logos/instagram.png" alt="Instagram"></a>
                 </div>
             </div>
 

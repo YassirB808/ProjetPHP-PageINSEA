@@ -1,19 +1,23 @@
-<?php include_once __DIR__ . '/lang_handler.php'; ?>
+<?php include_once __DIR__ . '/lang_handler.php'; 
+$php_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'components/PHP/' : '';
+$assets_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'components/' : '../';
+$index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '../../index.php';
+?>
 <!DOCTYPE html>
 <html lang="<?php echo get_lang_code(); ?>" dir="<?php echo get_dir(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo __('title'); ?></title>
-    <link rel="stylesheet" href="components/CSS/style.css">
+    <link rel="stylesheet" href="<?php echo $assets_path; ?>CSS/style.css">
 </head>
 <body>
 
     <!-- MAIN BRANDING HEADER -->
     <header class="main-header">
         <div class="logo-block">
-            <a href="index.php" style="display: flex; align-items: center; gap: 20px;">
-                <img src="components/images/logos/INSEA_logo.png" alt="INSEA Logo">
+            <a href="<?php echo $index_path; ?>" style="display: flex; align-items: center; gap: 20px;">
+                <img src="<?php echo $assets_path; ?>images/logos/INSEA_logo.png" alt="INSEA Logo">
                 <div class="logo-text">
                     <h1><?php echo __('logo_title'); ?></h1>
                     <p><?php echo __('logo_subtitle'); ?></p>
@@ -29,7 +33,7 @@
             </div>
             <div class="search-header">
                 <input type="text" placeholder="<?php echo __('search_placeholder'); ?>">
-                <img src="components/images/logos/search_icon.png" alt="Rechercher" style="height: 18px; width: auto; opacity: 0.6;">
+                <img src="<?php echo $assets_path; ?>images/logos/search_icon.png" alt="Rechercher" style="height: 18px; width: auto; opacity: 0.6;">
             </div>
         </div>
     </header>
@@ -38,55 +42,55 @@
     <div class="nav-wrapper">
         <div class="nav-container">
             <ul class="main-nav">
-                <li><a href="index.php"><?php echo __('nav_home'); ?></a></li>
+                <li><a href="<?php echo $index_path; ?>"><?php echo __('nav_home'); ?></a></li>
                 <li>
                     <a href="#"><?php echo __('nav_formations'); ?></a>
                     <ul class="dropdown">
                         <li>
-                            <a href="cycle_ingenieur.php"><?php echo __('cycle_ingenieur'); ?> &rsaquo;</a>
+                            <a href="<?php echo $php_path; ?>cycle_ingenieur.php"><?php echo __('cycle_ingenieur'); ?> &rsaquo;</a>
                             <ul class="dropdown">
-                                <li><a href="filiere_af.php"><?php echo __('ci_af'); ?></a></li>
-                                <li><a href="filiere_ds.php"><?php echo __('ci_ds'); ?></a></li>
-                                <li><a href="filiere_se.php"><?php echo __('ci_se'); ?></a></li>
-                                <li><a href="filiere_ro.php"><?php echo __('ci_ro'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>filiere_af.php"><?php echo __('ci_af'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>filiere_ds.php"><?php echo __('ci_ds'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>filiere_se.php"><?php echo __('ci_se'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>filiere_ro.php"><?php echo __('ci_ro'); ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="cycle_master.php"><?php echo __('nav_master'); ?></a></li>
-                        <li><a href="cycle_doctoral.php"><?php echo __('nav_doctoral'); ?></a></li>
-                        <li><a href="formation_continue.php"><?php echo __('nav_formation_continue'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>cycle_master.php"><?php echo __('nav_master'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>cycle_doctoral.php"><?php echo __('nav_doctoral'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>formation_continue.php"><?php echo __('nav_formation_continue'); ?></a></li>
                         <li>
-                            <a href="admission.php"><?php echo __('nav_acces'); ?> &rsaquo;</a>
+                            <a href="<?php echo $php_path; ?>admission.php"><?php echo __('nav_acces'); ?> &rsaquo;</a>
                             <ul class="dropdown">
-                                <li><a href="admission_1.php"><?php echo __('nav_admission_1'); ?></a></li>
-                                <li><a href="admission_2.php"><?php echo __('nav_admission_2'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>admission_1.php"><?php echo __('nav_admission_1'); ?></a></li>
+                                <li><a href="<?php echo $php_path; ?>admission_2.php"><?php echo __('nav_admission_2'); ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="calendrier_scolaire.php"><?php echo __('nav_calendrier'); ?></a></li>
-                        <li><a href="cours_en_ligne.php"><?php echo __('nav_cours_ligne'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>calendrier_scolaire.php"><?php echo __('nav_calendrier'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>cours_en_ligne.php"><?php echo __('nav_cours_ligne'); ?></a></li>
                     </ul>
                 </li>
-                <li><a href="actualites.php"><?php echo __('nav_actualites'); ?></a></li>
+                <li><a href="<?php echo $php_path; ?>actualites.php"><?php echo __('nav_actualites'); ?></a></li>
                 <li>
                     <a href="#"><?php echo __('nav_stage'); ?> &rsaquo;</a>
                     <ul class="dropdown">
-                        <li><a href="stage_presentation.php"><?php echo __('nav_stage_pres'); ?></a></li>
-                        <li><a href="stage_proposer.php"><?php echo __('nav_stage_proposer'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>stage_presentation.php"><?php echo __('nav_stage_pres'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>stage_proposer.php"><?php echo __('nav_stage_proposer'); ?></a></li>
                     </ul>
                 </li>
 
-                <li><a href="partenariats.php"><?php echo __('nav_partenariats'); ?></a></li>
+                <li><a href="<?php echo $php_path; ?>partenariats.php"><?php echo __('nav_partenariats'); ?></a></li>
                 <li>
                     <a href="#"><?php echo __('nav_laureats'); ?></a>
                     <ul class="dropdown">
-                        <li><a href="offres_emploi.php"><?php echo __('nav_job_offers'); ?></a></li>
-                        <li><a href="remise_diplomes.php"><?php echo __('nav_graduation'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>offres_emploi.php"><?php echo __('nav_job_offers'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>remise_diplomes.php"><?php echo __('nav_graduation'); ?></a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#"><?php echo __('nav_recherche'); ?></a>
                     <ul class="dropdown">
-                        <li><a href="cedoc.php"><?php echo __('nav_cedoc'); ?></a></li>
-                        <li><a href="laboratoires.php"><?php echo __('nav_labs'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>cedoc.php"><?php echo __('nav_cedoc'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>laboratoires.php"><?php echo __('nav_labs'); ?></a></li>
                     </ul>
                 </li>
                 <li>

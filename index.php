@@ -74,7 +74,7 @@
 
     <!-- VIEW ALL BUTTON -->
     <div class="btn-container">
-        <a href="actualites.php" class="btn-outline"><?php echo __('voir_tous'); ?></a>
+        <a href="components/PHP/actualites.php" class="btn-outline"><?php echo __('voir_tous'); ?></a>
     </div>
 </section>
 
@@ -134,7 +134,7 @@
                 </div>
             </div>
             <h3><?php echo __('student_link_admission'); ?></h3>
-            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
+            <a href="components/PHP/admission.php" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
         
         <article class="espace-card">
@@ -144,7 +144,7 @@
                 </div>
             </div>
             <h3><?php echo __('student_link_schedule'); ?></h3>
-            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
+            <a href="components/PHP/calendrier_scolaire.php" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
 
         <article class="espace-card">
@@ -154,7 +154,7 @@
                 </div>
             </div>
             <h3><?php echo __('student_link_preins'); ?></h3>
-            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
+            <a href="components/PHP/admission_1.php" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
 
         <article class="espace-card">
@@ -164,7 +164,7 @@
                 </div>
             </div>
             <h3><?php echo __('student_link_exams'); ?></h3>
-            <a href="#" class="espace-link"><?php echo __('more_infos'); ?></a>
+            <a href="components/PHP/calendrier_scolaire.php" class="espace-link"><?php echo __('more_infos'); ?></a>
         </article>
     </div>
 

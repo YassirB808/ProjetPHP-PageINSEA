@@ -1,4 +1,4 @@
-<?php include 'components/PHP/header.php'; ?>
+<?php include 'header.php'; ?>
 
 <main class="main-content">
     <section class="page-banner" style="background: var(--insea-green); color: var(--white); padding: 60px 5%; text-align: center;">
@@ -51,4 +51,4 @@
     </section>
 </main>
 
-<?php include 'components/PHP/footer.php'; ?>
+<?php include 'footer.php'; ?>

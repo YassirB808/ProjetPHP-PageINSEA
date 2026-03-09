@@ -5,7 +5,7 @@ if (!isset($filiere_key)) {
     exit();
 }
 
-include 'components/PHP/header.php';
+include 'header.php';
 ?>
 
 <main class="main-content">
@@ -65,4 +65,4 @@ include 'components/PHP/header.php';
     </div>
 </main>
 
-<?php include 'components/PHP/footer.php'; ?>
+<?php include 'footer.php'; ?>

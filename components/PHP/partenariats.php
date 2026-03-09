@@ -1,4 +1,4 @@
-<?php include 'components/PHP/header.php'; ?>
+<?php include 'header.php'; ?>
 
 <main class="main-content">
     <section class="page-banner" style="background: var(--insea-green); color: var(--white); padding: 60px 5%; text-align: center;">
@@ -17,13 +17,13 @@
             </h2>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; align-items: center;">
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/hcp_logo.png" alt="HCP" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/hcp_logo.png" alt="HCP" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/Logo_BCP.png" alt="BCP" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/Logo_BCP.png" alt="BCP" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/Logo_DGCL.png" alt="DGCL" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/Logo_DGCL.png" alt="DGCL" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
             </div>
         </div>
@@ -35,17 +35,17 @@
             </h2>
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; align-items: center;">
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/Logo_ENSAIsvg.svg" alt="ENSAI" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/Logo_ENSAIsvg.svg" alt="ENSAI" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/UCLouvain_Logo.png" alt="UCLouvain" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/UCLouvain_Logo.png" alt="UCLouvain" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
                 <div style="padding: 20px; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                    <img src="components/images/partenariats/UNFPA_logo.svg" alt="UNFPA" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
+                    <img src="../images/partenariats/UNFPA_logo.svg" alt="UNFPA" style="max-width: 100%; height: auto; max-height: 120px; object-fit: contain;">
                 </div>
             </div>
         </div>
     </section>
 </main>
 
-<?php include 'components/PHP/footer.php'; ?>
+<?php include 'footer.php'; ?>
