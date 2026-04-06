@@ -1,33 +1,51 @@
-<?php include 'header.php'; ?>
+<?php 
+include 'header.php'; 
+
+$lang_id = get_language_id($pdo, get_lang_code());
+
+$stmt = $pdo->prepare("
+    SELECT jo.post_date, jot.title, jot.content, jo.image_url, jo.link_url
+    FROM job_offers jo
+    JOIN job_offers_translations jot ON jo.id = jot.job_offer_id
+    WHERE jot.language_id = ?
+    ORDER BY jo.post_date DESC
+");
+$stmt->execute([$lang_id]);
+$jobs = $stmt->fetchAll();
+?>
 
 <main class="main-content">
-    <section class="page-banner" style="background: var(--insea-green); color: var(--white); padding: 60px 5%; text-align: center;">
-        <h1 style="font-size: 2.5rem; font-weight: 800;"><?php echo __('nav_job_offers'); ?></h1>
+    <section class="page-banner">
+        <h1><?php echo __('nav_job_offers'); ?></h1>
     </section>
 
-    <section style="max-width: 1200px; margin: 60px auto; padding: 0 20px;">
-        <div class="news-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
-            <!-- Dummy Job 1 -->
-            <article class="news-card">
-                <div class="news-img">JOB</div>
-                <div class="news-content">
-                    <div class="news-date">Posté le 01 Mars 2026</div>
-                    <h3>Data Scientist Senior - Secteur Bancaire</h3>
-                    <p>Une grande institution financière recherche un ingénieur INSEA spécialisé en Data Science pour piloter des projets de machine learning.</p>
-                    <a href="#" class="link-arrow"><?php echo __('read_more'); ?></a>
-                </div>
-            </article>
-
-            <!-- Dummy Job 2 -->
-            <article class="news-card">
-                <div class="news-img">JOB</div>
-                <div class="news-content">
-                    <div class="news-date">Posté le 20 Février 2026</div>
-                    <h3>Actuaire Consultant - Cabinet International</h3>
-                    <p>Recrutement de profils Actuariat-Finance pour des missions d'audit et de conseil en gestion des risques.</p>
-                    <a href="#" class="link-arrow"><?php echo __('read_more'); ?></a>
-                </div>
-            </article>
+    <section class="content-container">
+        <div class="news-grid">
+            <?php if (empty($jobs)): ?>
+                <p class="text-center" style="grid-column: span 3; color: var(--gray-500);"><?php echo __('no_jobs_found'); ?></p>
+            <?php else: ?>
+                <?php foreach ($jobs as $job): ?>
+                    <article class="news-card">
+                        <div class="news-img">
+                            <?php if ($job['image_url']): ?>
+                                <img src="<?php echo $assets_path . 'images/' . $job['image_url']; ?>" alt="<?php echo htmlspecialchars($job['title']); ?>" class="cover-img">
+                            <?php else: ?>
+                                JOB
+                            <?php endif; ?>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-date"><?php echo __('posted_on'); ?> <?php echo date('d M Y', strtotime($job['post_date'])); ?></div>
+                            <h3><?php echo htmlspecialchars($job['title']); ?></h3>
+                            <p><?php echo htmlspecialchars($job['content']); ?></p>
+                            <a href="<?php echo $job['link_url'] ? htmlspecialchars($job['link_url']) : '#'; ?>" 
+                               class="link-arrow"
+                               <?php echo $job['link_url'] ? 'target="_blank"' : ''; ?>>
+                               <?php echo __('read_more'); ?>
+                            </a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </section>
 </main>

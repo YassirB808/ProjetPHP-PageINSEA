@@ -50,6 +50,8 @@
         <!-- Bottom Copyright -->
         <div class="footer-bottom">
             &copy; <?php echo date("Y"); ?> <?php echo __('logo_title'); ?> - <?php echo __('logo_subtitle'); ?>. <?php echo __('footer_rights'); ?>
+            <br>
+            <a href="<?php echo (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'admin/index.php' : '../../admin/index.php'; ?>" style="opacity: 0.3; font-size: 0.7rem; color: var(--white); text-decoration: none; margin-top: 10px; display: inline-block;">Administration</a>
         </div>
     </footer>
 </body>

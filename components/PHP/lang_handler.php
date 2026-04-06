@@ -27,4 +27,14 @@ function get_lang_code() {
     global $current_lang;
     return $current_lang;
 }
+
+/**
+ * Truncates text to a specified length
+ */
+function truncate_text($text, $limit = 150) {
+    if (strlen($text) <= $limit) return $text;
+    $text = substr($text, 0, $limit);
+    $text = substr($text, 0, strrpos($text, ' '));
+    return $text . '...';
+}
 ?>

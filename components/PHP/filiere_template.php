@@ -6,11 +6,29 @@ if (!isset($filiere_key)) {
 }
 
 include 'header.php';
+require_once 'db_connect.php';
+
+$lang_code = get_lang_code();
+$lang_id = get_language_id($pdo, $lang_code);
+
+// Fetch filière details
+$stmt = $pdo->prepare("
+    SELECT ft.title, ft.description, ft.program, ft.debouches
+    FROM filieres f
+    JOIN filieres_translations ft ON f.id = ft.filiere_id
+    WHERE f.code_key = ? AND ft.language_id = ?
+");
+$stmt->execute([$filiere_key, $lang_id]);
+$filiere = $stmt->fetch();
+
+// Fallback to translation keys if not found in DB yet
+$title = $filiere ? $filiere['title'] : __('filiere_' . $filiere_key . '_title');
+$desc = $filiere ? $filiere['description'] : __($filiere_key . '_desc');
 ?>
 
 <main class="main-content">
     <section class="page-banner" style="background: var(--insea-green); color: var(--white); padding: 60px 5%; text-align: center;">
-        <h1 style="font-size: 2.5rem; font-weight: 800;"><?php echo __('filiere_' . $filiere_key . '_title'); ?></h1>
+        <h1 style="font-size: 2.5rem; font-weight: 800;"><?php echo htmlspecialchars($title); ?></h1>
     </section>
 
     <div style="max-width: 1200px; margin: 0 auto; padding: 60px 20px;">
@@ -21,10 +39,20 @@ include 'header.php';
                         <?php echo __('filiere_desc_title'); ?>
                     </h2>
                     <p style="font-size: 1.1rem; line-height: 1.8; color: var(--gray-600);">
-                        <?php echo __($filiere_key . '_desc'); ?>
+                        <?php echo nl2br(htmlspecialchars($desc)); ?>
                     </p>
                 </section>
 
+                <?php if ($filiere && !empty($filiere['program'])): ?>
+                <section>
+                    <h2 style="color: var(--insea-green); border-bottom: 2px solid var(--insea-gold); display: inline-block; padding-bottom: 5px; margin-bottom: 20px;">
+                        <?php echo __('filiere_programme_title'); ?>
+                    </h2>
+                    <div class="db-content">
+                        <?php echo $filiere['program']; ?>
+                    </div>
+                </section>
+                <?php else: ?>
                 <section>
                     <h2 style="color: var(--insea-green); border-bottom: 2px solid var(--insea-gold); display: inline-block; padding-bottom: 5px; margin-bottom: 20px;">
                         <?php echo __('filiere_programme_title'); ?>
@@ -44,17 +72,22 @@ include 'header.php';
                         </li>
                     </ul>
                 </section>
+                <?php endif; ?>
             </div>
 
             <aside class="filiere-sidebar">
                 <div style="background: var(--gray-50); padding: 30px; border-radius: 12px; border: 1px solid var(--gray-200);">
                     <h3 style="color: var(--insea-green); margin-bottom: 20px; font-weight: 800;"><?php echo __('filiere_debouches_title'); ?></h3>
-                    <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
-                        <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Ingénieur en entreprise</li>
-                        <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Consultant expert</li>
-                        <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Chercheur / Académique</li>
-                        <li>Entrepreneur</li>
-                    </ul>
+                    <?php if ($filiere && !empty($filiere['debouches'])): ?>
+                        <div class="db-content"><?php echo $filiere['debouches']; ?></div>
+                    <?php else: ?>
+                        <ul style="list-style: none; padding: 0; font-size: 0.95rem;">
+                            <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Ingénieur en entreprise</li>
+                            <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Consultant expert</li>
+                            <li style="margin-bottom: 10px; border-bottom: 1px solid var(--gray-200); padding-bottom: 10px;">Chercheur / Académique</li>
+                            <li>Entrepreneur</li>
+                        </ul>
+                    <?php endif; ?>
                 </div>
                 
                 <a href="cycle_ingenieur.php" class="btn-outline" style="margin-top: 30px; width: 100%; text-align: center;">

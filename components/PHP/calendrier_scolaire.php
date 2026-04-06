@@ -1,16 +1,30 @@
-<?php include 'header.php'; ?>
+<?php 
+include 'header.php'; 
+
+$lang_id = get_language_id($pdo, get_lang_code());
+
+$stmt = $pdo->prepare("
+    SELECT e.event_date, et.title
+    FROM events e
+    JOIN events_translations et ON e.id = et.event_id
+    WHERE et.language_id = ?
+    ORDER BY e.id ASC
+");
+$stmt->execute([$lang_id]);
+$events = $stmt->fetchAll();
+?>
 
 <main class="main-content">
-    <section class="page-banner" style="background: var(--insea-green); color: var(--white); padding: 60px 5%; text-align: center;">
-        <h1 style="font-size: 2.5rem; font-weight: 800;"><?php echo __('cal_title'); ?></h1>
+    <section class="page-banner">
+        <h1><?php echo __('cal_title'); ?></h1>
     </section>
 
-    <section style="max-width: 1000px; margin: 60px auto; padding: 0 20px;">
-        <p style="text-align: center; color: var(--gray-600); font-size: 1.1rem; margin-bottom: 50px; line-height: 1.6;">
+    <section class="content-container">
+        <p class="page-intro">
             <?php echo __('cal_desc'); ?>
         </p>
 
-        <div style="background: var(--white); border-radius: 15px; box-shadow: var(--shadow-lg); overflow: hidden;">
+        <div class="form-card" style="overflow: hidden; padding: 0;">
             <table style="width: 100%; border-collapse: collapse; text-align: left;">
                 <thead>
                     <tr style="background: var(--insea-green); color: var(--white);">
@@ -19,30 +33,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="border-bottom: 1px solid var(--gray-200);">
-                        <td style="padding: 20px; font-weight: 600;">Rentrée universitaire</td>
-                        <td style="padding: 20px;">Septembre 2025</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--gray-200); background: var(--gray-50);">
-                        <td style="padding: 20px; font-weight: 600;">Examens de fin du 1er semestre</td>
-                        <td style="padding: 20px;">Janvier 2026</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--gray-200);">
-                        <td style="padding: 20px; font-weight: 600;">Vacances de fin de semestre</td>
-                        <td style="padding: 20px;">Fin Janvier 2026</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--gray-200); background: var(--gray-50);">
-                        <td style="padding: 20px; font-weight: 600;">Début du 2ème semestre</td>
-                        <td style="padding: 20px;">Février 2026</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--gray-200);">
-                        <td style="padding: 20px; font-weight: 600;">Examens de fin d'année</td>
-                        <td style="padding: 20px;">Juin 2026</td>
-                    </tr>
-                    <tr style="background: var(--gray-50);">
-                        <td style="padding: 20px; font-weight: 600;">Rattrapages</td>
-                        <td style="padding: 20px;">Juillet 2026</td>
-                    </tr>
+                    <?php if (empty($events)): ?>
+                        <tr>
+                            <td colspan="2" class="text-center" style="padding: 20px; color: var(--gray-500);"><?php echo __('no_events_found'); ?></td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($events as $index => $event): ?>
+                            <tr style="border-bottom: 1px solid var(--gray-200); <?php echo $index % 2 != 0 ? 'background: var(--gray-50);' : ''; ?>">
+                                <td style="padding: 20px; font-weight: 600;"><?php echo htmlspecialchars($event['title']); ?></td>
+                                <td style="padding: 20px;"><?php echo htmlspecialchars($event['event_date']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

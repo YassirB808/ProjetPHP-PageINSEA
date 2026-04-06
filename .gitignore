@@ -1,0 +1,16 @@
+# PHP
+composer.phar
+/vendor/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary images and uploads
+components/images/others/*.tmp
+components/images/others/*.temp
+components/images/partenariats/*.tmp
+components/images/partenariats/*.temp
+
+# Local config (if any)
+.env

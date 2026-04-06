@@ -1,4 +1,5 @@
 <?php include_once __DIR__ . '/lang_handler.php'; 
+require_once __DIR__ . '/db_connect.php';
 $php_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'components/PHP/' : '';
 $assets_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'components/' : '../';
 $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '../../index.php';
@@ -9,6 +10,7 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo __('title'); ?></title>
+    <link rel="icon" type="image/png" href="<?php echo $assets_path; ?>images/logos/insea_logo.png">
     <link rel="stylesheet" href="<?php echo $assets_path; ?>CSS/style.css">
 </head>
 <body>
@@ -16,7 +18,7 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
     <!-- MAIN BRANDING HEADER -->
     <header class="main-header">
         <div class="logo-block">
-            <a href="<?php echo $index_path; ?>" style="display: flex; align-items: center; gap: 20px;">
+            <a href="<?php echo $index_path; ?>" class="header-logo-link">
                 <img src="<?php echo $assets_path; ?>images/logos/INSEA_logo.png" alt="INSEA Logo">
                 <div class="logo-text">
                     <h1><?php echo __('logo_title'); ?></h1>
@@ -25,15 +27,15 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
             </a>
         </div>
 
-        <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
-            <div class="lang-switcher" style="display: flex; gap: 10px; font-weight: bold; font-size: 14px;">
-                <a href="?lang=fr" style="color: <?php echo get_lang_code() == 'fr' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">FR</a>
-                <a href="?lang=en" style="color: <?php echo get_lang_code() == 'en' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">EN</a>
-                <a href="?lang=ar" style="color: <?php echo get_lang_code() == 'ar' ? 'var(--insea-green)' : '#333'; ?>; text-decoration: none;">AR</a>
+        <div class="header-right">
+            <div class="lang-switcher">
+                <a href="?lang=fr" class="<?php echo get_lang_code() == 'fr' ? 'active' : ''; ?>">FR</a>
+                <a href="?lang=en" class="<?php echo get_lang_code() == 'en' ? 'active' : ''; ?>">EN</a>
+                <a href="?lang=ar" class="<?php echo get_lang_code() == 'ar' ? 'active' : ''; ?>">AR</a>
             </div>
             <div class="search-header">
                 <input type="text" placeholder="<?php echo __('search_placeholder'); ?>">
-                <img src="<?php echo $assets_path; ?>images/logos/search_icon.png" alt="Rechercher" style="height: 18px; width: auto; opacity: 0.6;">
+                <img src="<?php echo $assets_path; ?>images/logos/search_icon.png" alt="Rechercher" class="search-icon">
             </div>
         </div>
     </header>
@@ -96,12 +98,13 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
                 <li>
                     <a href="#"><?php echo __('nav_vie_estudiantine'); ?></a>
                     <ul class="dropdown">
-                        <li><a href="#"><?php echo __('nav_internship_restoration'); ?></a></li>
-                        <li><a href="#"><?php echo __('nav_library'); ?></a></li>
-                        <li><a href="#"><?php echo __('nav_foyer_study'); ?></a></li>
-                        <li><a href="#"><?php echo __('nav_bde'); ?></a></li>
-                        <li><a href="#"><?php echo __('nav_clubs'); ?></a></li>
-                        <li><a href="#"><?php echo __('nav_sports'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=internat"><?php echo __('nav_internship_restoration'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=library"><?php echo __('nav_library'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=foyer"><?php echo __('nav_foyer_study'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=adei"><?php echo __('nav_bde'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=clubs"><?php echo __('nav_clubs'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=sports"><?php echo __('nav_sports'); ?></a></li>
+                        <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=health"><?php echo __('nav_health'); ?></a></li>
                     </ul>
                 </li>
             </ul>
