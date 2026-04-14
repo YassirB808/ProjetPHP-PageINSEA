@@ -29,9 +29,9 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
 
         <div class="header-right">
             <div class="lang-switcher">
-                <a href="?lang=fr" class="<?php echo get_lang_code() == 'fr' ? 'active' : ''; ?>">FR</a>
-                <a href="?lang=en" class="<?php echo get_lang_code() == 'en' ? 'active' : ''; ?>">EN</a>
-                <a href="?lang=ar" class="<?php echo get_lang_code() == 'ar' ? 'active' : ''; ?>">AR</a>
+                <a href="<?php echo get_lang_url('fr'); ?>" class="<?php echo get_lang_code() == 'fr' ? 'active' : ''; ?>">FR</a>
+                <a href="<?php echo get_lang_url('en'); ?>" class="<?php echo get_lang_code() == 'en' ? 'active' : ''; ?>">EN</a>
+                <a href="<?php echo get_lang_url('ar'); ?>" class="<?php echo get_lang_code() == 'ar' ? 'active' : ''; ?>">AR</a>
             </div>
             <div class="search-header">
                 <input type="text" placeholder="<?php echo __('search_placeholder'); ?>">
@@ -46,7 +46,7 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
             <ul class="main-nav">
                 <li><a href="<?php echo $index_path; ?>"><?php echo __('nav_home'); ?></a></li>
                 <li>
-                    <a href="#"><?php echo __('nav_formations'); ?></a>
+                    <a href="#"><?php echo __('nav_formations'); ?> &rsaquo;</a>
                     <ul class="dropdown">
                         <li>
                             <a href="<?php echo $php_path; ?>cycle_ingenieur.php"><?php echo __('cycle_ingenieur'); ?> &rsaquo;</a>
@@ -82,21 +82,21 @@ $index_path = (basename($_SERVER['PHP_SELF']) === 'index.php') ? 'index.php' : '
 
                 <li><a href="<?php echo $php_path; ?>partenariats.php"><?php echo __('nav_partenariats'); ?></a></li>
                 <li>
-                    <a href="#"><?php echo __('nav_laureats'); ?></a>
+                    <a href="#"><?php echo __('nav_laureats'); ?> &rsaquo;</a>
                     <ul class="dropdown">
                         <li><a href="<?php echo $php_path; ?>offres_emploi.php"><?php echo __('nav_job_offers'); ?></a></li>
                         <li><a href="<?php echo $php_path; ?>remise_diplomes.php"><?php echo __('nav_graduation'); ?></a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><?php echo __('nav_recherche'); ?></a>
+                    <a href="#"><?php echo __('nav_recherche'); ?> &rsaquo;</a>
                     <ul class="dropdown">
                         <li><a href="<?php echo $php_path; ?>cedoc.php"><?php echo __('nav_cedoc'); ?></a></li>
                         <li><a href="<?php echo $php_path; ?>laboratoires.php"><?php echo __('nav_labs'); ?></a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><?php echo __('nav_vie_estudiantine'); ?></a>
+                    <a href="#"><?php echo __('nav_vie_estudiantine'); ?> &rsaquo;</a>
                     <ul class="dropdown">
                         <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=internat"><?php echo __('nav_internship_restoration'); ?></a></li>
                         <li><a href="<?php echo $php_path; ?>vie_estudiantine.php?category=library"><?php echo __('nav_library'); ?></a></li>

@@ -10,7 +10,7 @@ function processAndSaveImage($file_temp, $target_dir, $prefix = 'img', $max_widt
     }
 
     $extension = strtolower(pathinfo($file_temp, PATHINFO_EXTENSION));
-    $filename = $prefix . "_" . time() . "_" . bin2hex(random_bytes(4)) . "." . $extension;
+    $filename = $prefix . "_" . time() . "_" . bin2hex(random_bytes(4)) . ".jpg";
     $target_path = $target_dir . $filename;
 
     // FALLBACK: If GD library is not installed, just move the file and return
@@ -52,12 +52,8 @@ function processAndSaveImage($file_temp, $target_dir, $prefix = 'img', $max_widt
     // Resize
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 
-    // Save as JPEG with 80% quality (Good balance between size and quality)
+    // Save as JPEG with 80% quality
     imagejpeg($dst, $target_path, 80);
-
-    // Free memory
-    imagedestroy($src);
-    imagedestroy($dst);
 
     return $filename;
 }

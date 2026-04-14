@@ -12,19 +12,31 @@ function get_site_content($key, $fallback_fn_name, $site_data) {
     return isset($site_data[$key]) ? $site_data[$key] : $fallback_fn_name($key);
 }
 
-// Fetch latest news (The very newest one will be featured)
-$stmt_latest = $pdo->prepare("
+// 1. Fetch the Featured News
+// Priority: Newest item with is_featured = 1
+// Fallback: Newest item regardless of flag
+$stmt_feat = $pdo->prepare("
     SELECT n.id, n.publish_date, nt.title, nt.content, n.image_url, n.link_url
     FROM news n
     JOIN news_translations nt ON n.id = nt.news_id
     WHERE nt.language_id = ?
-    ORDER BY n.publish_date DESC LIMIT 4
+    ORDER BY n.is_featured DESC, n.publish_date DESC LIMIT 1
 ");
-$stmt_latest->execute([$lang_id]);
-$all_recent_news = $stmt_latest->fetchAll();
+$stmt_feat->execute([$lang_id]);
+$featured_news = $stmt_feat->fetch();
 
-$featured_news = array_shift($all_recent_news); // Newest
-$latest_news = $all_recent_news; // Next 3
+$featured_id = $featured_news ? $featured_news['id'] : 0;
+
+// 2. Fetch the Latest News for the grid (Excluding the one at the top)
+$stmt_latest = $pdo->prepare("
+    SELECT n.id, n.publish_date, nt.title, nt.content, n.image_url, n.link_url
+    FROM news n
+    JOIN news_translations nt ON n.id = nt.news_id
+    WHERE nt.language_id = ? AND n.id != ?
+    ORDER BY n.publish_date DESC LIMIT 3
+");
+$stmt_latest->execute([$lang_id, $featured_id]);
+$latest_news = $stmt_latest->fetchAll();
 
 // Fetch gallery items (Limit 8)
 $stmt_gallery = $pdo->prepare("

@@ -2,106 +2,71 @@
 require_once 'auth_check.php';
 require_once '../components/PHP/db_connect.php';
 require_once '../components/PHP/lang_handler.php';
+require_once 'translator.php';
 
 $message = '';
 
-function autoTranslate($text, $source, $target) {
-    if (empty($text)) return '';
-    $url = "https://api.mymemory.translated.net/get?q=" . urlencode($text) . "&langpair=" . $source . "|" . $target;
-    $response = @file_get_contents($url);
-    if ($response) {
-        $json = json_decode($response, true);
-        return $json['responseData']['translatedText'] ?? $text;
-    }
-    return $text;
-}
-
-// Handle Delete
 if (isset($_GET['delete'])) {
-    $id = (int)$_GET['delete'];
-    $stmt = $pdo->prepare("DELETE FROM laboratories WHERE id = ?");
-    $stmt->execute([$id]);
+    $pdo->prepare("DELETE FROM laboratories WHERE id = ?")->execute([(int)$_GET['delete']]);
     $message = "<div class='alert alert-success'>Laboratoire supprimé.</div>";
 }
 
-// Handle Add
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name_fr = $_POST['name_fr'] ?? '';
-
     try {
         $pdo->beginTransaction();
-
-        $stmt = $pdo->prepare("INSERT INTO laboratories () VALUES ()");
-        $stmt->execute();
+        $pdo->prepare("INSERT INTO laboratories () VALUES ()")->execute();
         $lab_id = $pdo->lastInsertId();
-
-        $name_en = autoTranslate($name_fr, 'fr', 'en');
-        $name_ar = autoTranslate($name_fr, 'fr', 'ar');
-
-        $stmt_t = $pdo->prepare("INSERT INTO laboratories_translations (lab_id, language_id, name) VALUES (?, ?, ?)");
-        $stmt_t->execute([$lab_id, 1, $name_fr]);
-        $stmt_t->execute([$lab_id, 2, $name_en]);
-        $stmt_t->execute([$lab_id, 3, $name_ar]);
-
+        $pdo->prepare("INSERT INTO laboratories_translations (lab_id, language_id, name) VALUES (?, 1, ?), (?, 2, ?), (?, 3, ?)")->execute([$lab_id, $name_fr, $lab_id, autoTranslate($name_fr, 'fr', 'en'), $lab_id, autoTranslate($name_fr, 'fr', 'ar')]);
         $pdo->commit();
-        $message = "<div class='alert alert-success'>Laboratoire ajouté et traduit !</div>";
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        $message = "<div class='alert alert-error'>Erreur : " . $e->getMessage() . "</div>";
-    }
+        $message = "<div class='alert alert-success'>Laboratoire ajouté.</div>";
+    } catch (Exception $e) { $pdo->rollBack(); $message = "<div class='alert alert-error'>Erreur: ".$e->getMessage()."</div>"; }
 }
 
-$stmt = $pdo->query("SELECT l.id, lt.name FROM laboratories l JOIN laboratories_translations lt ON l.id = lt.lab_id WHERE lt.language_id = 1 ORDER BY lt.name ASC");
-$labs = $stmt->fetchAll();
+$labs = $pdo->query("SELECT l.id, lt.name FROM laboratories l JOIN laboratories_translations lt ON l.id = lt.lab_id WHERE lt.language_id = 1 ORDER BY lt.name ASC")->fetchAll();
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Gérer les Laboratoires - INSEA</title>
-    <link rel="stylesheet" href="../components/CSS/style.css">
-    <style>
-        .admin-container { max-width: 800px; margin: 40px auto; padding: 20px; }
-        .form-section { background: white; padding: 30px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 40px; }
-        .lab-list { background: white; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
-        .lab-item { padding: 15px 20px; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; align-items: center; }
-        .btn-delete { color: #dc3545; font-weight: bold; }
-    </style>
+    <meta charset="UTF-8"><title>Laboratoires - INSEA Admin</title><link rel="stylesheet" href="admin_style.css">
 </head>
-<body style="background: var(--gray-50);">
-
-    <div class="admin-container">
-        <a href="index.php" style="color: var(--insea-green); font-weight: bold;">← Dashboard</a>
-        
-        <header class="section-header">
-            <h1>Gérer les Laboratoires</h1>
-            <div class="line"></div>
-        </header>
-
-        <?php echo $message; ?>
-
-        <div class="form-section">
-            <h2>Ajouter un Laboratoire</h2>
-            <form action="" method="POST" class="form-grid" style="margin-top: 20px;">
-                <div>
-                    <label>Nom du Laboratoire (Français)</label>
-                    <input type="text" name="name_fr" required placeholder="Ex: Laboratoire de Data Science et d'IA">
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-brand"><img src="../components/images/logos/insea_logo.png" alt=""><span>INSEA ADMIN</span></div>
+            <nav class="sidebar-nav">
+                <a href="index.php" class="nav-link">Dashboard</a>
+                <a href="manage_news.php" class="nav-link">Actualités</a>
+                <a href="manage_gallery.php" class="nav-link">Galerie Photos</a>
+                <a href="manage_partners.php" class="nav-link">Partenariats</a>
+                <a href="manage_jobs.php" class="nav-link">Offres d'Emploi</a>
+                <a href="manage_graduations.php" class="nav-link">Diplômes</a>
+                <a href="manage_labs.php" class="nav-link active">Laboratoires</a>
+                <a href="manage_calendar.php" class="nav-link">Calendrier</a>
+                <a href="manage_student_life.php" class="nav-link">Vie Étudiante</a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="content-wrapper">
+                <header class="page-header"><div class="page-title"><h1>Laboratoires</h1><p>Gérer les structures de recherche.</p></div><div class="user-profile"><a href="logout.php" onclick="confirmLogout('logout.php'); return false;" class="logout-link">Déconnexion</a></div></header>
+                <?php include 'modals.php'; ?>
+                <?php echo $message; ?>
+                <div class="card">
+                    <h2 class="card-title">Ajouter un Laboratoire</h2>
+                    <form action="" method="POST">
+                        <div class="form-group"><label>Nom du Laboratoire (Français)</label><input type="text" name="name_fr" class="form-control" required></div>
+                        <button type="submit" class="btn-primary">Ajouter</button>
+                    </form>
                 </div>
-                <button type="submit" class="btn-form-submit">Ajouter et Traduire</button>
-            </form>
-        </div>
-
-        <h2>Liste des Laboratoires</h2>
-        <div class="lab-list">
-            <?php foreach ($labs as $l): ?>
-            <div class="lab-item">
-                <span><?php echo htmlspecialchars($l['name']); ?></span>
-                <a href="?delete=<?php echo $l['id']; ?>" class="btn-delete" onclick="return confirm('Supprimer ce laboratoire ?')">Supprimer</a>
+                <div class="card">
+                    <h2 class="card-title">Liste des structures</h2>
+                    <table class="data-table">
+                        <thead><tr><th>Nom</th><th style="text-align:right">Actions</th></tr></thead>
+                        <tbody><?php foreach ($labs as $l): ?><tr><td style="font-weight:600"><?php echo htmlspecialchars($l['name']); ?></td><td style="text-align:right"><a href="?delete=<?php echo $l['id']; ?>" class="link-delete" onclick="return confirm('Supprimer ?')">Supprimer</a></td></tr><?php endforeach; ?></tbody>
+                    </table>
+                </div>
             </div>
-            <?php endforeach; ?>
-        </div>
+        </main>
     </div>
-
 </body>
 </html>

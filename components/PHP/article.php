@@ -46,17 +46,21 @@ if (!$article) {
     }
     .article-hero {
         width: 100%;
-        max-width: 800px; /* Aligned with article body for a cleaner vertical column */
+        max-width: 800px;
         margin: 0 auto 60px;
         border-radius: 15px;
         overflow: hidden;
         box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.1);
-        height: 450px; /* FIXED HEIGHT TO NORMALIZE ALL IMAGES */
+        height: 450px;
+        background: #f0f2f5; /* Match the contain background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .article-hero img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* PERFECTLY CROP AND FIT ANY IMAGE RATIO */
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* SHOWS THE FULL IMAGE */
         display: block;
     }
     .article-body {

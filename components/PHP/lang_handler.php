@@ -29,6 +29,15 @@ function get_lang_code() {
 }
 
 /**
+ * Generates a URL for switching language while preserving other GET parameters
+ */
+function get_lang_url($lang) {
+    $params = $_GET;
+    $params['lang'] = $lang;
+    return '?' . http_build_query($params);
+}
+
+/**
  * Truncates text to a specified length
  */
 function truncate_text($text, $limit = 150) {
