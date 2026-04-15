@@ -24,7 +24,15 @@ if (isset($_GET['delete'])) {
     $message = "<div class='alert alert-success'>Partenaire supprimé.</div>";
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['bulk_delete']) && !empty($_POST['selected_ids'])) {
+    $ids = $_POST['selected_ids'];
+    $placeholders = str_repeat('?,', count($ids) - 1) . '?';
+    $stmt = $pdo->prepare("DELETE FROM partners WHERE id IN ($placeholders)");
+    $stmt->execute($ids);
+    $message = "<div class='alert alert-success'>Éléments supprimés.</div>";
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['bulk_delete'])) {
     $name = $_POST['name'] ?? '';
     $type = $_POST['type'] ?? 'national';
     $post_id = $_POST['edit_id'] ?? 0;
@@ -53,7 +61,32 @@ $partners = $pdo->query("SELECT * FROM partners ORDER BY name ASC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
-<head><meta charset="UTF-8"><title>Partenariats - Admin</title><link rel="stylesheet" href="admin_style.css"></head>
+<head>
+    <meta charset="UTF-8"><title>Partenariats - Admin</title><link rel="stylesheet" href="admin_style.css">
+    <script>
+        function toggleSelectAll(source) {
+            checkboxes = document.getElementsByName('selected_ids[]');
+            for(var i=0, n=checkboxes.length;i<n;i++) checkboxes[i].checked = source.checked;
+            updateDeleteButton();
+        }
+        function updateDeleteButton() {
+            const anyChecked = document.querySelectorAll('input[name="selected_ids[]"]:checked').length > 0;
+            document.getElementById('btn-bulk-delete').disabled = !anyChecked;
+        }
+        function previewImage(input) {
+            const preview = document.getElementById('image-preview');
+            const container = document.getElementById('preview-container');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    container.classList.add('has-image');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</head>
 <body>
     <div class="admin-layout">
         <aside class="sidebar">
@@ -73,7 +106,6 @@ $partners = $pdo->query("SELECT * FROM partners ORDER BY name ASC")->fetchAll();
         <main class="main-content">
             <div class="content-wrapper">
                 <header class="page-header"><div class="page-title"><h1>Partenariats</h1><p>Gérer les partenaires.</p></div><div class="user-profile"><a href="logout.php" onclick="confirmLogout('logout.php'); return false;" class="logout-link">Déconnexion</a></div></header>
-                <?php include 'modals.php'; ?>
                 <?php echo $message; ?>
                 <div class="card">
                     <h2 class="card-title"><?php echo $edit_mode ? 'Modifier' : 'Ajouter'; ?> un partenaire</h2>
@@ -84,26 +116,43 @@ $partners = $pdo->query("SELECT * FROM partners ORDER BY name ASC")->fetchAll();
                             <div class="form-group"><label>Nom</label><input type="text" name="name" class="form-control" required value="<?php echo htmlspecialchars($edit_data['name']); ?>"></div>
                             <div class="form-group"><label>Type</label><select name="type" class="form-control"><option value="national" <?php echo $edit_data['type']=='national'?'selected':''; ?>>National</option><option value="international" <?php echo $edit_data['type']=='international'?'selected':''; ?>>International</option></select></div>
                         </div>
-                        <div class="form-group"><label>Logo</label><input type="file" name="logo" class="form-control" accept="image/*" <?php echo $edit_mode?'':'required'; ?>></div>
+                        <div class="form-group">
+                            <label>Logo</label>
+                            <input type="file" name="logo" class="form-control" accept="image/*" onchange="previewImage(this)" <?php echo $edit_mode?'':'required'; ?>>
+                            <div id="preview-container" class="image-preview-container <?php echo $edit_data['logo_url'] ? 'has-image' : ''; ?>">
+                                <img id="image-preview" src="<?php echo $edit_data['logo_url'] ? '../components/images/'.$edit_data['logo_url'] : ''; ?>" alt="Preview">
+                                <div class="preview-placeholder">Aperçu</div>
+                            </div>
+                        </div>
                         <button type="submit" class="btn-primary"><?php echo $edit_mode?'Enregistrer':'Ajouter'; ?></button>
                         <?php if($edit_mode): ?><a href="manage_partners.php" class="btn-cancel">Annuler</a><?php endif; ?>
                     </form>
                 </div>
                 <h2 class="section-label">Partenaires actuels</h2>
-                <div class="admin-gallery-grid">
-                    <?php foreach ($partners as $p): ?>
-                    <div class="gallery-item-card" style="text-align:center; padding: 20px;">
-                        <img src="../components/images/<?php echo $p['logo_url']; ?>" alt="" style="height: 50px; object-fit: contain;">
-                        <div class="gallery-item-info">
-                            <strong><?php echo htmlspecialchars($p['name']); ?></strong>
-                            <div class="action-btns" style="justify-content:center; margin-top:10px;">
-                                <a href="?edit=<?php echo $p['id']; ?>" class="link-edit"><?php echo icon_pen(); ?></a>
-                                <a href="?delete=<?php echo $p['id']; ?>" class="link-delete"><?php echo icon_trash(); ?></a>
+                <form action="" method="POST" onsubmit="return confirm('Supprimer les éléments sélectionnés ?')">
+                    <div class="bulk-actions" style="margin-bottom: 25px;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <input type="checkbox" class="checkbox-custom" onclick="toggleSelectAll(this)" id="sel-all">
+                            <label for="sel-all" style="font-weight:700; font-size:0.85rem; cursor:pointer;">Tout sélectionner</label>
+                        </div>
+                        <button type="submit" name="bulk_delete" id="btn-bulk-delete" class="btn-delete-selected" disabled style="margin-left:auto;"><?php echo icon_trash(); ?> Supprimer la sélection</button>
+                    </div>
+                    <div class="admin-gallery-grid">
+                        <?php foreach ($partners as $p): ?>
+                        <div class="gallery-item-card" style="text-align:center; padding: 20px; position:relative;">
+                            <input type="checkbox" name="selected_ids[]" value="<?php echo $p['id']; ?>" class="checkbox-custom" onclick="updateDeleteButton()" style="position:absolute; top:10px; left:10px; z-index:10;">
+                            <img src="../components/images/<?php echo $p['logo_url']; ?>" alt="" style="height: 50px; object-fit: contain; width: 100%; border-bottom:none;">
+                            <div class="gallery-item-info">
+                                <strong><?php echo htmlspecialchars($p['name']); ?></strong>
+                                <div class="action-btns" style="justify-content:center; margin-top:10px; display:flex;">
+                                    <a href="?edit=<?php echo $p['id']; ?>" class="link-edit"><?php echo icon_pen(); ?></a>
+                                    <a href="?delete=<?php echo $p['id']; ?>" class="link-delete" onclick="return confirm('Supprimer ?')"><?php echo icon_trash(); ?></a>
+                                </div>
                             </div>
                         </div>
+                        <?php endforeach; ?>
                     </div>
-                    <?php endforeach; ?>
-                </div>
+                </form>
             </div>
         </main>
     </div>

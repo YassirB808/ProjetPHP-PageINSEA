@@ -21,12 +21,19 @@ if (isset($_GET['edit'])) {
 }
 
 if (isset($_GET['delete'])) {
-    $id = (int)$_GET['delete'];
-    $pdo->prepare("DELETE FROM gallery WHERE id = ?")->execute([$id]);
+    $pdo->prepare("DELETE FROM gallery WHERE id = ?")->execute([(int)$_GET['delete']]);
     $message = "<div class='alert alert-success'>Image supprimée.</div>";
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['bulk_delete']) && !empty($_POST['selected_ids'])) {
+    $ids = $_POST['selected_ids'];
+    $placeholders = str_repeat('?,', count($ids) - 1) . '?';
+    $stmt = $pdo->prepare("DELETE FROM gallery WHERE id IN ($placeholders)");
+    $stmt->execute($ids);
+    $message = "<div class='alert alert-success'>Éléments supprimés.</div>";
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !isset($_POST['bulk_delete'])) {
     $title_fr = $_POST['title_fr'] ?? '';
     $category = $_POST['category'] ?? 'evenements';
     $link_url = $_POST['link_url'] ?? NULL;
@@ -54,21 +61,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdo->prepare("INSERT INTO gallery_translations (gallery_id, language_id, title) VALUES (?, 1, ?), (?, 2, ?), (?, 3, ?)")->execute([$gal_id, $title_fr, $gal_id, autoTranslate($title_fr, 'fr', 'en'), $gal_id, autoTranslate($title_fr, 'fr', 'ar')]);
             }
             $pdo->commit();
-            if ($post_id > 0) { header('Location: manage_gallery.php?msg=updated'); exit; }
-            $message = "<div class='alert alert-success'>Image ajoutée.</div>";
+            header('Location: manage_gallery.php?msg=updated'); exit;
         } catch (Exception $e) { $pdo->rollBack(); $message = "<div class='alert alert-error'>Erreur: ".$e->getMessage()."</div>"; }
     }
 }
 
-if (isset($_GET['msg']) && $_GET['msg'] == 'updated') $message = "<div class='alert alert-success'>Image mise à jour.</div>";
+if (isset($_GET['msg']) && $_GET['msg'] == 'updated') $message = "<div class='alert alert-success'>Modifications enregistrées.</div>";
 $gallery_items = $pdo->query("SELECT g.id, g.image_url, g.category, gt.title FROM gallery g JOIN gallery_translations gt ON g.id = gt.gallery_id WHERE gt.language_id = 1 ORDER BY g.created_at DESC")->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Galerie - INSEA Admin</title>
-    <link rel="stylesheet" href="admin_style.css">
+    <meta charset="UTF-8"><title>Galerie - INSEA Admin</title><link rel="stylesheet" href="admin_style.css">
+    <script>
+        function toggleSelectAll(source) {
+            checkboxes = document.getElementsByName('selected_ids[]');
+            for(var i=0, n=checkboxes.length;i<n;i++) checkboxes[i].checked = source.checked;
+            updateDeleteButton();
+        }
+        function updateDeleteButton() {
+            const anyChecked = document.querySelectorAll('input[name="selected_ids[]"]:checked').length > 0;
+            document.getElementById('btn-bulk-delete').disabled = !anyChecked;
+        }
+        function previewImage(input) {
+            const preview = document.getElementById('image-preview');
+            const container = document.getElementById('preview-container');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    container.classList.add('has-image');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="admin-layout">
@@ -88,12 +115,7 @@ $gallery_items = $pdo->query("SELECT g.id, g.image_url, g.category, gt.title FRO
         </aside>
         <main class="main-content">
             <div class="content-wrapper">
-                <header class="page-header">
-                    <div class="page-title"><h1>Galerie Photos</h1><p>Gérer les visuels du campus.</p></div>
-                    <div class="user-profile"><a href="logout.php" onclick="confirmLogout('logout.php'); return false;" class="logout-link">Déconnexion</a></div>
-                    </header>
-                    <?php include 'modals.php'; ?>
-
+                <header class="page-header"><div class="page-title"><h1>Galerie Photos</h1><p>Gérer les visuels du campus.</p></div><div class="user-profile"><a href="logout.php" onclick="confirmLogout('logout.php'); return false;" class="logout-link">Déconnexion</a></div></header>
                 <?php echo $message; ?>
                 <div class="card">
                     <h2 class="card-title"><?php echo $edit_mode ? 'Modifier' : 'Ajouter'; ?> une photo</h2>
@@ -105,7 +127,14 @@ $gallery_items = $pdo->query("SELECT g.id, g.image_url, g.category, gt.title FRO
                             <div class="form-group"><label>Catégorie</label><select name="category" class="form-control"><option value="evenements" <?php echo $edit_data['category']=='evenements'?'selected':''; ?>>Événements</option><option value="etudiants" <?php echo $edit_data['category']=='etudiants'?'selected':''; ?>>Étudiants</option><option value="partenariats" <?php echo $edit_data['category']=='partenariats'?'selected':''; ?>>Partenariats</option><option value="recherche" <?php echo $edit_data['category']=='recherche'?'selected':''; ?>>Recherche</option></select></div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group"><label>Image</label><input type="file" name="image" class="form-control" accept="image/*" <?php echo $edit_mode?'':'required'; ?>></div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <input type="file" name="image" class="form-control" accept="image/*" onchange="previewImage(this)" <?php echo $edit_mode?'':'required'; ?>>
+                                <div id="preview-container" class="image-preview-container <?php echo $edit_data['image_url'] ? 'has-image' : ''; ?>">
+                                    <img id="image-preview" src="<?php echo $edit_data['image_url'] ? '../components/images/'.$edit_data['image_url'] : ''; ?>" alt="Preview">
+                                    <div class="preview-placeholder">Aperçu</div>
+                                </div>
+                            </div>
                             <div class="form-group"><label>Lien (Optionnel)</label><input type="text" name="link_url" class="form-control" value="<?php echo htmlspecialchars($edit_data['link_url']); ?>"></div>
                         </div>
                         <button type="submit" class="btn-primary"><?php echo $edit_mode?'Enregistrer':'Uploader'; ?></button>
@@ -113,21 +142,31 @@ $gallery_items = $pdo->query("SELECT g.id, g.image_url, g.category, gt.title FRO
                     </form>
                 </div>
                 <h2 class="section-label">Photos actuelles</h2>
-                <div class="admin-gallery-grid">
-                    <?php foreach ($gallery_items as $item): ?>
-                    <div class="gallery-item-card">
-                        <img src="../components/images/<?php echo $item['image_url']; ?>" alt="">
-                        <div class="gallery-item-info">
-                            <span><?php echo $item['category']; ?></span>
-                            <strong><?php echo htmlspecialchars($item['title']); ?></strong>
-                            <div class="action-btns" style="margin-top: 12px;">
-                                <a href="?edit=<?php echo $item['id']; ?>" class="link-edit" title="Modifier"><?php echo icon_pen(); ?></a>
-                                <a href="?delete=<?php echo $item['id']; ?>" class="link-delete" title="Supprimer"><?php echo icon_trash(); ?></a>
+                <form action="" method="POST" onsubmit="return confirm('Supprimer les éléments sélectionnés ?')">
+                    <div class="bulk-actions" style="margin-bottom: 25px;">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <input type="checkbox" class="checkbox-custom" onclick="toggleSelectAll(this)" id="sel-all">
+                            <label for="sel-all" style="font-weight:700; font-size:0.85rem; cursor:pointer;">Tout sélectionner</label>
+                        </div>
+                        <button type="submit" name="bulk_delete" id="btn-bulk-delete" class="btn-delete-selected" disabled style="margin-left:auto;"><?php echo icon_trash(); ?> Supprimer la sélection</button>
+                    </div>
+                    <div class="admin-gallery-grid">
+                        <?php foreach ($gallery_items as $item): ?>
+                        <div class="gallery-item-card" style="position:relative;">
+                            <input type="checkbox" name="selected_ids[]" value="<?php echo $item['id']; ?>" class="checkbox-custom" onclick="updateDeleteButton()" style="position:absolute; top:10px; left:10px; z-index:10; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.5);">
+                            <img src="../components/images/<?php echo $item['image_url']; ?>" alt="">
+                            <div class="gallery-item-info">
+                                <span><?php echo $item['category']; ?></span>
+                                <strong><?php echo htmlspecialchars($item['title']); ?></strong>
+                                <div class="action-btns" style="margin-top: 12px; display: flex;">
+                                    <a href="?edit=<?php echo $item['id']; ?>" class="link-edit"><?php echo icon_pen(); ?></a>
+                                    <a href="?delete=<?php echo $item['id']; ?>" class="link-delete" onclick="return confirm('Supprimer ?')"><?php echo icon_trash(); ?></a>
+                                </div>
                             </div>
                         </div>
+                        <?php endforeach; ?>
                     </div>
-                    <?php endforeach; ?>
-                </div>
+                </form>
             </div>
         </main>
     </div>

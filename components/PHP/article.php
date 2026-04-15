@@ -154,7 +154,7 @@ if (!$article) {
     <!-- Main Content Body -->
     <div class="article-body">
         <div class="article-content">
-            <?php echo nl2br(htmlspecialchars($article['content'])); ?>
+            <?php echo $article['content']; ?>
         </div>
 
         <footer class="article-footer">
